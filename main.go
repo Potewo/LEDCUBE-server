@@ -12,7 +12,7 @@ var data1 = []byte{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff}
 var data2 = []byte{0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff}
 
 func main() {
-	c := &serial.Config{Name: "/dev/ttyACM0", Baud: 9600, ReadTimeout: 2 * time.Second}
+	c := &serial.Config{Name: "/dev/ttyACM0", Baud: 115200, ReadTimeout: 2 * time.Second}
 	s, err := serial.OpenPort(c)
 	if err != nil {
 		log.Fatal(err)
