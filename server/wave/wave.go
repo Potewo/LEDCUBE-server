@@ -6,7 +6,7 @@ import (
 )
 
 type Waver struct {
-	buf [8][8]byte
+	buf [64]byte
 	freq float64
 }
 
@@ -20,17 +20,18 @@ func (w Waver) wave(seed int) int {
 	return int(math.Round(4 * math.Sin(float64(seed) * 2 * math.Pi / w.freq))) + 3
 }
 
-func (w *Waver) Generate(frame int) [8][8]byte {
-	for i, bs := range w.buf {
+func (w *Waver) Generate(frame int) []byte {
+	for i := 0; i < 8; i++ {
 		h := w.wave(i + frame)
 		// fmt.Println(h)
-		for j := range bs {
+		for j := 0; j < 8; j++ {
 			if j == h {
-				w.buf[i][j] = 0xff
+				w.buf[i*8+j] = 0xff
 			} else {
-				w.buf[i][j] = 0x00
+				w.buf[i*8+j] = 0x00
 			}
 		}
 	}
-	return w.buf
+	return w.buf[:]
+	// 配列からスライスへの変換
 }

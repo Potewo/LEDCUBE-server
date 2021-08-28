@@ -7,6 +7,7 @@ import (
 
 	"github.com/Potewo/cobsserial"
 	"github.com/tarm/serial"
+	"github.com/Potewo/LEDCUBE-server/server/wave"
 )
 
 var data1 = []byte{
@@ -39,18 +40,27 @@ func main() {
 		log.Fatal(err)
 	}
 	cobsserial.S = s
+	w := wave.NewWaver()
 	for {
-		err = cobsserial.Write(data1)
-		if err != nil {
-			log.Fatal(err)
+		// err = cobsserial.Write(data1)
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
+		// log.Println("data1")
+		// time.Sleep(time.Second)
+		// err = cobsserial.Write(data2)
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
+		// log.Println("data2")
+		// time.Sleep(time.Second)
+		for i := 0; i < 60; i++ {
+			m := w.Generate(i)
+			err = cobsserial.Write(m)
+			if err != nil {
+				log.Fatal(err)
+			}
+			time.Sleep(time.Second / 60)
 		}
-		log.Println("data1")
-		time.Sleep(time.Second)
-		err = cobsserial.Write(data2)
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Println("data2")
-		time.Sleep(time.Second)
 	}
 }
