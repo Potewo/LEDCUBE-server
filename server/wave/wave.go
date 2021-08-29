@@ -1,7 +1,6 @@
 package wave
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -15,8 +14,6 @@ func NewWaver() *Waver{
 }
 
 func (w Waver) wave(seed int) int {
-	s := float64(seed) * 2 * math.Pi / w.freq
-	fmt.Println(s)
 	return int(math.Round(4 * math.Sin(float64(seed) * 2 * math.Pi / w.freq))) + 3
 }
 
