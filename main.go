@@ -34,13 +34,14 @@ var data2 = []byte{
 
 func main() {
 	flag.Parse()
-	c := &serial.Config{Name: flag.Arg(0), Baud: 9600, ReadTimeout: 2 * time.Second}
+	c := &serial.Config{Name: flag.Arg(0), Baud: 115200, ReadTimeout: 2 * time.Second}
 	s, err := serial.OpenPort(c)
 	if err != nil {
 		log.Fatal(err)
 	}
 	cobsserial.S = s
 	w := wave.NewWaver()
+	i := 0
 	for {
 		// err = cobsserial.Write(data1)
 		// if err != nil {
@@ -54,13 +55,12 @@ func main() {
 		// }
 		// log.Println("data2")
 		// time.Sleep(time.Second)
-		for i := 0; i < 60; i++ {
-			m := w.Generate(i)
-			err = cobsserial.Write(m)
-			if err != nil {
-				log.Fatal(err)
-			}
-			time.Sleep(time.Second / 60)
+		i++
+		m := w.Generate(i)
+		err = cobsserial.Write(m)
+		if err != nil {
+			log.Fatal(err)
 		}
+		time.Sleep(time.Second / 60)
 	}
 }
