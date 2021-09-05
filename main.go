@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
+	"github.com/Potewo/LEDCUBE-server/server/rain"
 	"github.com/Potewo/cobsserial"
 	"github.com/tarm/serial"
-	"github.com/Potewo/LEDCUBE-server/server/wave"
 )
 
 var data1 = []byte{
@@ -40,21 +40,9 @@ func main() {
 		log.Fatal(err)
 	}
 	cobsserial.S = s
-	w := wave.NewWaver()
+	w := rain.NewCloud()
 	i := 0
 	for {
-		// err = cobsserial.Write(data1)
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
-		// log.Println("data1")
-		// time.Sleep(time.Second)
-		// err = cobsserial.Write(data2)
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
-		// log.Println("data2")
-		// time.Sleep(time.Second)
 		i++
 		m := w.Generate(i)
 		err = cobsserial.Write(m)
