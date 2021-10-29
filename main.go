@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/Potewo/LEDCUBE-server/server/rain"
+	"github.com/Potewo/LEDCUBE-server/server/plane"
+	"github.com/Potewo/LEDCUBE-server/server/wave"
 	"github.com/Potewo/cobsserial"
 	"github.com/tarm/serial"
 )
@@ -40,8 +42,22 @@ func main() {
 		log.Fatal(err)
 	}
 	cobsserial.S = s
-	w := rain.NewCloud()
+	r := rain.NewCloud()
 	i := 0
+	for {
+		i++
+		m := r.Generate(i)
+		err = cobsserial.Write(m)
+		if err != nil {
+			log.Fatal(err)
+		}
+		time.Sleep(time.Second / 60)
+		if i > 1000 {
+			break
+		}
+	}
+	w := wave.NewWaver()
+	i = 0
 	for {
 		i++
 		m := w.Generate(i)
@@ -50,5 +66,22 @@ func main() {
 			log.Fatal(err)
 		}
 		time.Sleep(time.Second / 60)
+		if i > 1000 {
+			break
+		}
+	}
+	p := plane.NewPlane()
+	i = 0
+	for {
+		i++
+		m := p.Generate(i)
+		err = cobsserial.Write(m)
+		if err != nil {
+			log.Fatal(err)
+		}
+		time.Sleep(time.Second / 60)
+		if i > 1000 {
+			break
+		}
 	}
 }
