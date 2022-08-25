@@ -42,46 +42,48 @@ func main() {
 		log.Fatal(err)
 	}
 	cobsserial.S = s
-	r := rain.NewCloud()
-	i := 0
 	for {
-		i++
-		m := r.Generate(i)
-		err = cobsserial.Write(m)
-		if err != nil {
-			log.Fatal(err)
+		r := rain.NewCloud()
+		i := 0
+		for {
+			i++
+			m := r.Generate(i)
+			err = cobsserial.Write(m)
+			if err != nil {
+				log.Fatal(err)
+			}
+			time.Sleep(time.Second / 60)
+			if i > 300 {
+				break
+			}
 		}
-		time.Sleep(time.Second / 60)
-		if i > 1000 {
-			break
+		w := wave.NewWaver()
+		i = 0
+		for {
+			i++
+			m := w.Generate(i)
+			err = cobsserial.Write(m)
+			if err != nil {
+				log.Fatal(err)
+			}
+			time.Sleep(time.Second / 60)
+			if i > 300 {
+				break
+			}
 		}
-	}
-	w := wave.NewWaver()
-	i = 0
-	for {
-		i++
-		m := w.Generate(i)
-		err = cobsserial.Write(m)
-		if err != nil {
-			log.Fatal(err)
+		p := plane.NewPlane()
+		i = 0
+		for {
+			i++
+			m := p.Generate(i)
+			err = cobsserial.Write(m)
+			if err != nil {
+				log.Fatal(err)
+			}
+			time.Sleep(time.Second / 60)
+			if i > 300 {
+				break
+			}
 		}
-		time.Sleep(time.Second / 60)
-		if i > 1000 {
-			break
-		}
-	}
-	p := plane.NewPlane()
-	i = 0
-	for {
-		i++
-		m := p.Generate(i)
-		err = cobsserial.Write(m)
-		if err != nil {
-			log.Fatal(err)
-		}
-		time.Sleep(time.Second / 60)
-		if i > 1000 {
-			break
-		}
-	}
+}
 }
